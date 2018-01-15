@@ -1,10 +1,7 @@
-from urllib.parse import urlencode
-from urllib import request
-import json
 import re
-from ...abstract.feed import Feed
-from ...abstract.story import Story
-
+from ...abstract import Feed
+from ...abstract import Story
+from .util import call_gdata
 
 class channel(Feed):
     def _getStories(self, keyword):
@@ -20,16 +17,6 @@ class channel(Feed):
             youtube_videos.append(Story('youtube.'+keyword, d))
 
         return youtube_videos
-
-
-def call_gdata(api, qs):
-    qs = dict(qs)
-    qs['key'] = "AIzaSyDvysm00R5FClmqtxcATsgpKHdt2GxCaiU"
-    url = 'https://www.googleapis.com/youtube/v3/' + api + '?' + urlencode(qs)
-
-    data = request.urlopen(url).read().decode('utf-8')
-
-    return json.loads(data)
 
 
 def get_channel_uploads(url):
